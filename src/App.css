@@ -1,0 +1,57 @@
+.App {
+    padding: 50px;
+}
+.counter {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 50px;
+}
+.counter:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.App table {
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.App th {
+    padding: 2px;
+    width: 2em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.App td {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.App caption {
+    padding: 0;
+    caption-side: inherit;
+    text-align: inherit;
+    color: black;
+    background-color: #f8f9fa;
+    border-radius: 2rem;
+}
+
+.App caption span {
+    display: inline-block;
+    font-weight: 400;
+    padding: 5px 5px;
+    line-height: 20px;
+    vertical-align: middle;
+}
+
+.App caption .btn {
+    line-height: 20px;
+}
+
+.App caption .prevBtn {
+    float: left;
+}
+
+.App caption .nextBtn {
+    float: right;
+}
