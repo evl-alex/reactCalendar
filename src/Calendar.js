@@ -18,8 +18,29 @@ class Calendar extends Component {
       };
    }
 
+   changeMonth(arg) {
+      const newDate = new Date(this.state.date);
+      newDate.setDate(1);
+
+      switch (arg){
+         case "prev":
+            newDate.setMonth(newDate.getMonth() - 1);
+            this.setState({
+               date: newDate
+            });
+            break;
+         case "next":
+            newDate.setMonth(newDate.getMonth() + 1);
+            this.setState({
+               date: newDate
+            });
+            break;
+         default: return;
+      }
+   }
+
    render() {
-      let selectedDate = {
+      const selectedDate = {
          month: '',
          days: []
       };
@@ -56,14 +77,13 @@ class Calendar extends Component {
       selectedDate.month = this.state.date.getMonth();
       selectedDate.month = `${names[this.state.language].monthNames[selectedDate.month]} ${this.state.date.getFullYear()}`;
 
-
       return (
          <div className="App">
             <table>
                <caption>
-                  <button type="button" className="btn btn-light btn-sm prevBtn">&larr;</button>
+                  <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.changeMonth("prev")}>&larr;</button>
                   <span>{selectedDate.month}</span>
-                  <button type="button" className="btn btn-light btn-sm nextBtn">&rarr;</button>
+                  <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.changeMonth("next")}>&rarr;</button>
                </caption>
                <thead>
                <tr>{names[this.state.language].weekDaysNames.map((dayName, index) => {
