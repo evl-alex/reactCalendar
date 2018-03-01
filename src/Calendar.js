@@ -13,8 +13,12 @@ class Calendar extends Component {
    constructor(props) {
       super(props);
       this.language = props.language || "ru";
+
+      this.currentDate = new Date();
+      const dateData = this.generateDaysMatrix(this.currentDate);
+
       this.state = {
-         date: new Date(),
+         dateData: dateData
       };
    }
 
@@ -68,7 +72,7 @@ class Calendar extends Component {
    }
 
    changeMonth(arg) {
-      const newDate = new Date(this.state.date);
+      const newDate = new Date(this.currentDate);
       newDate.setDate(1);
 
       if (arg === "prev") {
@@ -79,20 +83,21 @@ class Calendar extends Component {
          return;
       }
 
+      this.currentDate = newDate;
+      const newDateData = this.generateDaysMatrix(newDate);
+
       this.setState({
-         date: newDate
+         dateData: newDateData
       });
    }
 
    render() {
-      const dateData = this.generateDaysMatrix(this.state.date);
-
       return (
          <div className="App">
             <table>
                <caption>
                   <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.changeMonth("prev")}>&larr;</button>
-                  <span>{dateData.month}</span>
+                  <span>{this.state.dateData.month}</span>
                   <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.changeMonth("next")}>&rarr;</button>
                </caption>
                <thead>
@@ -101,7 +106,7 @@ class Calendar extends Component {
                })}</tr>
                </thead>
                <tbody>
-               {dateData.days.map((week, index) => {
+               {this.state.dateData.days.map((week, index) => {
                   return <tr key={index}>{week.map((day, index) => {
                      return <td key={index}>{day ? day : ''}</td>
                   })}</tr>
