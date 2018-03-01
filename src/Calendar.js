@@ -71,21 +71,17 @@ class Calendar extends Component {
       const newDate = new Date(this.state.date);
       newDate.setDate(1);
 
-      switch (arg){
-         case "prev":
-            newDate.setMonth(newDate.getMonth() - 1);
-            this.setState({
-               date: newDate
-            });
-            break;
-         case "next":
-            newDate.setMonth(newDate.getMonth() + 1);
-            this.setState({
-               date: newDate
-            });
-            break;
-         default: return;
+      if (arg === "prev") {
+         newDate.setMonth(newDate.getMonth() - 1);
+      } else if (arg === "next") {
+         newDate.setMonth(newDate.getMonth() + 1);
+      } else {
+         return;
       }
+
+      this.setState({
+         date: newDate
+      });
    }
 
    render() {
