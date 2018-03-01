@@ -12,10 +12,59 @@ const names = {
 class Calendar extends Component {
    constructor(props) {
       super(props);
+      this.language = props.language || "ru";
       this.state = {
          date: new Date(),
-         language: 'ru'
       };
+   }
+
+   generateDaysMatrix(date) {
+      const selectedDate = new Date(date);
+      const dateData = {
+         month: '',
+         days: []
+      };
+
+      // Getting first's day of the month position
+      selectedDate.setDate(1);
+      let firstDay = selectedDate.getDay();
+      firstDay = firstDay ? firstDay - 1 : 6;
+
+      // Getting total number of days in selected month
+      selectedDate.setMonth(selectedDate.getMonth() + 1);
+      selectedDate.setDate(selectedDate.getDate() - 1);
+      const numberOfDays = selectedDate.getDate();
+
+      // Getting number of weeks in selected month
+      const numberOfWeeks = Math.ceil((numberOfDays + firstDay) / 7);
+
+      let dayCounter = 1;
+
+      while (dateData.days.length < numberOfWeeks) {
+         let week = [];
+
+         while (week.length < 7) {
+            // Filling with "0" days of the month before 1st date
+            while (firstDay) {
+               week.push(0);
+               firstDay--;
+            }
+
+            if (dayCounter <= numberOfDays) {
+               week.push(dayCounter);
+               dayCounter++;
+            } else {
+               week.push(0);
+            }
+         }
+
+         dateData.days.push(week);
+      }
+
+      dateData.month = selectedDate.getMonth();
+      dateData.month = `${names[this.language].monthNames[dateData.month]} ${selectedDate.getFullYear()}`;
+
+      return dateData;
    }
 
    changeMonth(arg) {
@@ -40,58 +89,23 @@ class Calendar extends Component {
    }
 
    render() {
-      const selectedDate = {
-         month: '',
-         days: []
-      };
-
-      this.state.date.setDate(1);
-      let firstDay = this.state.date.getDay();
-      firstDay = firstDay ? firstDay - 1 : 6;
-      this.state.date.setMonth(this.state.date.getMonth() + 1);
-      this.state.date.setDate(this.state.date.getDate() - 1);
-      let numberOfDays = this.state.date.getDate();
-      let numberOfWeeks = Math.ceil((numberOfDays + firstDay) / 7);
-      let dayCounter = 1;
-
-      while (selectedDate.days.length < numberOfWeeks) {
-         let week = [];
-
-         while (week.length < 7) {
-            while (firstDay) {
-               week.push(0);
-               firstDay--;
-            }
-
-            if (dayCounter <= numberOfDays) {
-               week.push(dayCounter);
-               dayCounter++;
-            } else {
-               week.push(0);
-            }
-         }
-
-         selectedDate.days.push(week);
-      }
-
-      selectedDate.month = this.state.date.getMonth();
-      selectedDate.month = `${names[this.state.language].monthNames[selectedDate.month]} ${this.state.date.getFullYear()}`;
+      const dateData = this.generateDaysMatrix(this.state.date);
 
       return (
          <div className="App">
             <table>
                <caption>
                   <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.changeMonth("prev")}>&larr;</button>
-                  <span>{selectedDate.month}</span>
+                  <span>{dateData.month}</span>
                   <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.changeMonth("next")}>&rarr;</button>
                </caption>
                <thead>
-               <tr>{names[this.state.language].weekDaysNames.map((dayName, index) => {
+               <tr>{names[this.language].weekDaysNames.map((dayName, index) => {
                   return <th key={index}>{dayName}</th>
                })}</tr>
                </thead>
                <tbody>
-               {selectedDate.days.map((week, index) => {
+               {dateData.days.map((week, index) => {
                   return <tr key={index}>{week.map((day, index) => {
                      return <td key={index}>{day ? day : ''}</td>
                   })}</tr>
