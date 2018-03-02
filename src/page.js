@@ -26,10 +26,10 @@ class Page extends Component {
       }));
    }
 
-   changeMonth(arg, stop) {
+   changeMonth(arg, stopTimer) {
       const currentDate = new Date(this.state.date);
 
-      if (stop === true) this.toggleTimer();
+      if (stopTimer === true && this.state.timerIsOn) this.toggleTimer();
 
       if (arg === "next") {
          this.setState({
