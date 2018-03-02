@@ -87,9 +87,11 @@ class Calendar extends Component {
          <div className="calendar">
             <table>
                <caption>
-                  <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.props.onMonthChange("prev")}>&larr;</button>
+                  <button type="button" className="btn btn-light btn-sm prevBtn"
+                          onClick={() => this.props.onMonthChange("prev", true)}>&larr;</button>
                   <span>{this.state.dateData.month}</span>
-                  <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.props.onMonthChange("next")}>&rarr;</button>
+                  <button type="button" className="btn btn-light btn-sm nextBtn"
+                          onClick={() => this.props.onMonthChange("next", true)}>&rarr;</button>
                </caption>
                <thead>
                <tr>{names[this.language].weekDaysNames.map((dayName, index) => {
