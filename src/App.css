@@ -1,33 +1,39 @@
-.App {
-    padding: 50px;
-}
-.counter {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 50px;
-}
-.counter:hover {
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.3);
+.page {
+    text-align: center;
 }
 
-.App table {
+.page h1 {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 1.7em;
+}
+
+.calendar {
+    width: 300px;
+    margin: auto;
+    padding: 20px 0 10px;
+}
+
+.calendar table {
+    margin: auto;
     border: 2px solid black;
     text-align: center;
     border-collapse: collapse;
 }
 
-.App th {
+.calendar th {
     padding: 2px;
     width: 2em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-.App td {
+.calendar td {
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.App caption {
+.calendar caption {
     padding: 0;
     caption-side: inherit;
     text-align: inherit;
@@ -36,7 +42,7 @@
     border-radius: 2rem;
 }
 
-.App caption span {
+.calendar caption span {
     display: inline-block;
     font-weight: 400;
     padding: 5px 5px;
@@ -44,14 +50,14 @@
     vertical-align: middle;
 }
 
-.App caption .btn {
+.calendar caption .btn {
     line-height: 20px;
 }
 
-.App caption .prevBtn {
+.calendar caption .prevBtn {
     float: left;
 }
 
-.App caption .nextBtn {
+.calendar caption .nextBtn {
     float: right;
 }

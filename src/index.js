@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Calendar from './Calendar';
+import Page from './page';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Calendar language={"ru"}/>, document.getElementById('root'));
+ReactDOM.render(<Page />, document.getElementById('root'));
 
 registerServiceWorker();

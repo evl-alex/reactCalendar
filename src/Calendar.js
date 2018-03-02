@@ -14,7 +14,7 @@ class Calendar extends Component {
       super(props);
       this.language = props.language || "ru";
 
-      this.currentDate = new Date();
+      this.currentDate = props.date;
       const dateData = this.generateDaysMatrix(this.currentDate);
 
       this.state = {
@@ -71,20 +71,11 @@ class Calendar extends Component {
       return dateData;
    }
 
-   changeMonth(arg) {
-      const newDate = new Date(this.currentDate);
-      newDate.setDate(1);
+   componentWillReceiveProps(nextProps) {
+      if (nextProps.date === this.props.date) return;
 
-      if (arg === "prev") {
-         newDate.setMonth(newDate.getMonth() - 1);
-      } else if (arg === "next") {
-         newDate.setMonth(newDate.getMonth() + 1);
-      } else {
-         return;
-      }
-
-      this.currentDate = newDate;
-      const newDateData = this.generateDaysMatrix(newDate);
+      this.currentDate = nextProps.date;
+      const newDateData = this.generateDaysMatrix(this.currentDate);
 
       this.setState({
          dateData: newDateData
@@ -93,12 +84,12 @@ class Calendar extends Component {
 
    render() {
       return (
-         <div className="App">
+         <div className="calendar">
             <table>
                <caption>
-                  <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.changeMonth("prev")}>&larr;</button>
+                  <button type="button" className="btn btn-light btn-sm prevBtn" onClick={() => this.props.onMonthChange("prev")}>&larr;</button>
                   <span>{this.state.dateData.month}</span>
-                  <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.changeMonth("next")}>&rarr;</button>
+                  <button type="button" className="btn btn-light btn-sm nextBtn" onClick={() => this.props.onMonthChange("next")}>&rarr;</button>
                </caption>
                <thead>
                <tr>{names[this.language].weekDaysNames.map((dayName, index) => {
