@@ -8,7 +8,8 @@ class Page extends Component {
       super(props);
       this.state = {
          date: new Date(),
-         timerIsOn: false
+         timerIsOn: false,
+         selectedDate: null
       };
 
    }
@@ -45,11 +46,17 @@ class Page extends Component {
       }
    };
 
+   handleDatePick = (date) => {
+      this.setState({
+         selectedDate: date
+      })
+   };
+
    render() {
       return (
          <div className={"page"}>
             <h1>Welcome to Reactive Datepicker</h1>
-            <Calendar date={this.state.date} language={"ru"} onMonthChange={this.changeMonth}/>
+            <Calendar date={this.state.date} language={"ru"} selectedDate={this.state.selectedDate} onMonthChange={this.changeMonth} onDatePick={this.handleDatePick}/>
             <button type="button" className="btn btn-secondary btn-sm" onClick={this.toggleTimer}>
                {this.state.timerIsOn ? 'stop' : 'start'}
             </button>
@@ -60,31 +67,3 @@ class Page extends Component {
 }
 
 export default Page;
-
-
-
-/*
-* язык
-* базовую библиотеку
-* es6 > es3 (babel)
-*
-* underscore/lodash - недостающая базовая библиотека джаваскрипта
-*
-* */
-
-/* todo: помедитируй
-Function.prototype.bind = (context) => {
-   const originalFunction = this;
-
-   return (...args) => {
-      return originalFunction.apply(context, args)
-   }
-}
-Array.prototype.map = (transformator) => {
-   var newArray = [];
-   for (var i = 0; i < this.length; i++) {
-      newArray.push(transformator(this[i]))
-   }
-   return newArray;
-}
-*/

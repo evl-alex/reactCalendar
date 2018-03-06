@@ -18,8 +18,10 @@ class Calendar extends Component {
       const dateData = this.generateDaysMatrix(this.currentDate);
 
       this.state = {
-         dateData: dateData
+         dateData: dateData,
       };
+
+      this.handleDateClick = this.handleDateClick.bind(this);
    }
 
    generateDaysMatrix(date) {
@@ -45,30 +47,53 @@ class Calendar extends Component {
       // Getting number of weeks in selected month
       const numberOfWeeks = Math.ceil((numberOfDays + firstDay) / 7);
 
-      let dayCounter = 1;
+      //Setting current date to Monday
+      selectedDate.setDate(1);
+      while (selectedDate.getDay() !== 1) {
+         selectedDate.setDate(selectedDate.getDate() - 1);
+      }
 
       while (dateData.days.length < numberOfWeeks) {
          let week = [];
 
          while (week.length < 7) {
-            // Filling with "0" days of the month before 1st date
-            while (firstDay) {
-               week.push(0);
-               firstDay--;
-            }
-
-            if (dayCounter <= numberOfDays) {
-               week.push(dayCounter);
-               dayCounter++;
-            } else {
-               week.push(0);
-            }
+            week.push(selectedDate.getDate());
+            selectedDate.setDate(selectedDate.getDate() + 1);
          }
 
          dateData.days.push(week);
       }
 
       return dateData;
+   }
+
+   handleDateClick(event) {
+      let target = event.target;
+
+      while (target !== this) {
+         if (target.tagName === 'TD') {
+            const date = target.innerHTML;
+
+            if (target.classList.contains("otherMonth")) {
+               if (date > 21) {
+                  this.props.onDatePick(date);
+                  this.props.onMonthChange("prev", true);
+               } else if (date < 7) {
+                  this.props.onDatePick(date);
+                  this.props.onMonthChange("next", true);
+               }
+            }
+
+            if (target.classList.contains("selected")) {
+               this.props.onDatePick(null);
+               return;
+            }
+
+            this.props.onDatePick(date);
+            return;
+         }
+         target = target.parentNode;
+      }
    }
 
    componentWillReceiveProps(nextProps) {
@@ -83,28 +108,46 @@ class Calendar extends Component {
    }
 
    render() {
+      const dateData = this.state.dateData;
+      const lastWeekIndex = dateData.days.length - 1;
+
+      const daysName = names[this.language].weekDaysNames.map((dayName, index) => {
+         return <th key={index}>{dayName}</th>
+      });
+
+      const daysTR = dateData.days.map((week, weekIndex) => {
+            return (
+               <tr key={weekIndex}>{
+                  week.map((day, dayIndex) => {
+                     if (weekIndex === 0 && day > 7) {
+                        return <td key={dayIndex} className={"otherMonth"}>{day}</td>;
+                     } else if (weekIndex === lastWeekIndex && day < 21) {
+                        return <td key={dayIndex} className={"otherMonth"}>{day}</td>;
+                     } else if (day === +this.props.selectedDate) {
+                        return <td key={dayIndex} className={"selected"}>{day}</td>;
+                     } else {
+                        return <td key={dayIndex}>{day}</td>;
+                     }
+                  })
+               }
+               </tr>)
+         }
+      );
+
       return (
          <div className="calendar">
             <table>
                <caption>
                   <button type="button" className="btn btn-light btn-sm prevBtn"
                           onClick={() => this.props.onMonthChange("prev", true)}>&larr;</button>
-                  <span>{this.state.dateData.month}</span>
+                  <span>{dateData.month}</span>
                   <button type="button" className="btn btn-light btn-sm nextBtn"
                           onClick={() => this.props.onMonthChange("next", true)}>&rarr;</button>
                </caption>
                <thead>
-               <tr>{names[this.language].weekDaysNames.map((dayName, index) => {
-                  return <th key={index}>{dayName}</th>
-               })}</tr>
+               <tr>{daysName}</tr>
                </thead>
-               <tbody>
-               {this.state.dateData.days.map((week, index) => {
-                  return <tr key={index}>{week.map((day, index) => {
-                     return <td key={index}>{day ? day : ''}</td>
-                  })}</tr>
-               })}
-               </tbody>
+               <tbody onClick={this.handleDateClick}>{daysTR}</tbody>
             </table>
          </div>
       )
