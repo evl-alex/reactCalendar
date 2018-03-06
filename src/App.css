@@ -33,6 +33,10 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.calendar td:hover {
+    cursor: pointer;
+}
+
 .calendar caption {
     padding: 0;
     caption-side: inherit;
@@ -60,4 +64,17 @@
 
 .calendar caption .nextBtn {
     float: right;
+}
+
+.transliterator {
+    margin-top: 50px;
+    font-size: 1em;
+}
+
+.transliterator p {
+    margin: 0;
+}
+
+.transliterator input {
+    width: 225px;
 }

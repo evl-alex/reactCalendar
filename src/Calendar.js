@@ -29,6 +29,9 @@ class Calendar extends Component {
          days: []
       };
 
+      dateData.month = selectedDate.getMonth();
+      dateData.month = `${names[this.language].monthNames[dateData.month]} ${selectedDate.getFullYear()}`;
+
       // Getting first's day of the month position
       selectedDate.setDate(1);
       let firstDay = selectedDate.getDay();
@@ -64,9 +67,6 @@ class Calendar extends Component {
 
          dateData.days.push(week);
       }
-
-      dateData.month = selectedDate.getMonth();
-      dateData.month = `${names[this.language].monthNames[dateData.month]} ${selectedDate.getFullYear()}`;
 
       return dateData;
    }
